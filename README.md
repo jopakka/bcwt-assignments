@@ -1,1 +1,3 @@
-# Assignemts for Basic Concepts of Web Technology
+# wop-starters
+
+Choose a branch and download as zip.
