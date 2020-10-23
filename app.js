@@ -7,6 +7,10 @@ app.get('/cat', (req, res) => {
   res.send('From this endpoint you can get cats.')
 });
 
+app.get('/cat/:id', (req, res) => {
+  res.send(`You reqested a cat whose id is ${req.params.id}`)
+});
+
 app.post('/cat', (req, res) => {
   res.send('With this endpoint you can add cats.')
 });
