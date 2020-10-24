@@ -12,9 +12,9 @@ const cat_get = async (req, res) => {
   res.json(oneCat);
 };
 
-const cat_post = (req, res) => {
-  console.log(req.file);
-  res.json(req.file);
+const cat_post = async (req, res) => {
+  const result = await catModel.postCat(req.body, req.file);
+  res.json(result);
 };
 
 module.exports = {
