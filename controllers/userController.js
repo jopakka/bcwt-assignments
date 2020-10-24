@@ -2,9 +2,8 @@
 // userController
 const userModel = require('../models/userModel');
 
-const users = userModel.users;
-
-const user_list_get = (req, res) => {
+const user_list_get = async (req, res) => {
+  const users = await userModel.getAllUsers();
   for (const i in users) {
     deleteKey(users[i], 'password');
   }
@@ -16,9 +15,8 @@ const user_post = (req, res) => {
   res.json({ok: true});
 };
 
-const user_get = (req, res) => {
-  const oneUser = users.filter(user => user.id === req.params.id).
-      reduce(user => user);
+const user_get = async (req, res) => {
+  const oneUser = await userModel.getUser(req.params.id);
   deleteKey(oneUser, 'password');
   res.json(oneUser);
 };
