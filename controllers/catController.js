@@ -2,16 +2,13 @@
 // catController
 const catModel = require('../models/catModel');
 
-const cats = catModel.cats;
-
 const cat_list_get = async (req, res) => {
   const cats = await catModel.getAllCats();
   res.json(cats);
 };
 
-const cat_get = (req, res) => {
-  const oneCat = cats.filter(cat => cat.id === req.params.id).
-      reduce(cat => cat);
+const cat_get = async (req, res) => {
+  const oneCat = await catModel.getCat(req.params.id);
   res.json(oneCat);
 };
 
