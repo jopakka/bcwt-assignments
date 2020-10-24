@@ -1,0 +1,6 @@
+# Ignore everything except this file
+*
+!.gitignore
+
+# And this one file
+!7ecef8f24224bd015182e7cdf2c72c09
