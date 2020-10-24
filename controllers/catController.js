@@ -22,9 +22,15 @@ const cat_update_put = async (req, res) => {
   res.json(result);
 };
 
+const cat_delete = async (req, res) => {
+  const result = await catModel.deleteCat(req.params.id);
+  res.json(result);
+};
+
 module.exports = {
   cat_list_get,
   cat_get,
   cat_post,
   cat_update_put,
+  cat_delete,
 };

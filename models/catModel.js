@@ -51,9 +51,23 @@ const updateCat = async (body) => {
   }
 };
 
+const deleteCat = async (id) => {
+  try {
+    await promisePool.execute(
+        'DELETE FROM wop_cat WHERE cat_id = ?',
+        [id],
+    );
+    return {success: true};
+  } catch (e) {
+    console.error('catModel error', e.message);
+    return {error: true};
+  }
+};
+
 module.exports = {
   getAllCats,
   getCat,
   postCat,
   updateCat,
+  deleteCat,
 };
