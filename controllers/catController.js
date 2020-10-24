@@ -17,8 +17,14 @@ const cat_post = async (req, res) => {
   res.json(result);
 };
 
+const cat_update_put = async (req, res) => {
+  const result = await catModel.updateCat(req.body);
+  res.json(result);
+};
+
 module.exports = {
   cat_list_get,
   cat_get,
   cat_post,
+  cat_update_put,
 };

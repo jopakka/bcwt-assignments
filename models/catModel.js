@@ -27,10 +27,10 @@ const getCat = async (id) => {
 
 const postCat = async (body, file) => {
   try {
-    console.log('catModel', file);
     await promisePool.execute(
         'INSERT INTO wop_cat(name, age, weight, owner, filename) VALUES(?,?,?,?,?)',
-        [body.name, body.age, body.weight, body.owner, file.filename]);
+        [body.name, body.age, body.weight, body.owner, file.filename],
+    );
     return {success: true};
   } catch (e) {
     console.error('catModel error:', e.message);
@@ -38,8 +38,22 @@ const postCat = async (body, file) => {
   }
 };
 
+const updateCat = async (body) => {
+  try {
+    await promisePool.execute(
+        'UPDATE wop_cat SET name = ?, age = ?, weight = ?, owner = ? WHERE cat_id = ?',
+        [body.name, body.age, body.weight, body.owner, body.id],
+    );
+    return {success: true};
+  } catch (e) {
+    console.error('catModel error', e.message);
+    return {error: true};
+  }
+};
+
 module.exports = {
   getAllCats,
   getCat,
   postCat,
+  updateCat,
 };

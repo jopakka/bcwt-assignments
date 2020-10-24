@@ -11,4 +11,6 @@ router.get('/:id', catController.cat_get);
 
 router.post('/', upload.single('cat'), catController.cat_post);
 
+router.put('/', catController.cat_update_put);
+
 module.exports = router;
