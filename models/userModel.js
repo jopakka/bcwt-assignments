@@ -4,8 +4,7 @@ const promisePool = pool.promise();
 
 const getAllUsers = async () => {
   try {
-    // TODO: do the LEFT (or INNER) JOIN to get owner name too.
-    const [rows] = await promisePool.query('SELECT * FROM wop_user');
+    const [rows] = await promisePool.query('SELECT user_id, name, email FROM wop_user');
     return rows;
   } catch (e) {
     console.error('userModel error:', e.message);
@@ -16,7 +15,7 @@ const getAllUsers = async () => {
 const getUser = async (id) => {
   try {
     const [oneUser] = await promisePool.execute(
-        'SELECT * FROM wop_user WHERE user_id = ?', [id]);
+        'SELECT user_id, name, email FROM wop_user WHERE user_id = ?', [id]);
     return oneUser.reduce(cat => cat);
   } catch (e) {
     return {error: `No users with id: ${id}`};
