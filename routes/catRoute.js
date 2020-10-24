@@ -9,6 +9,10 @@ const upload = multer({dest: './uploads/'});
 router.get('/', catController.cat_list_get);
 router.get('/:id', catController.cat_get);
 
-router.post('/', upload.single('uploaded_file'), catController.cat_post);
+router.post('/', upload.single('cat'), catController.cat_post);
+
+router.put('/', catController.cat_update_put);
+
+router.delete('/:id', catController.cat_delete);
 
 module.exports = router;
