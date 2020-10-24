@@ -8,7 +8,7 @@ const user_list_get = async (req, res) => {
 };
 
 const user_post = (req, res) => {
-  console.log(req.body);
+  console.log('userController:', req.body);
   res.json({ok: true});
 };
 
@@ -17,8 +17,14 @@ const user_get = async (req, res) => {
   res.json(oneUser);
 };
 
+const user_create_post = async (req, res) => {
+  const result = await userModel.addUser(req.body);
+  res.json(result);
+};
+
 module.exports = {
   user_list_get,
   user_get,
   user_post,
+  user_create_post
 };
