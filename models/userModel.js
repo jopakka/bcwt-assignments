@@ -18,7 +18,7 @@ const getUser = async (id) => {
         'SELECT user_id, name, email FROM wop_user WHERE user_id = ?', [id]);
     return oneUser.reduce(cat => cat);
   } catch (e) {
-    return {error: `No users with id: ${id}`};
+    return {error: `Error happen`};
   }
 };
 
