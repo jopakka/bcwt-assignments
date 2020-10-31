@@ -25,7 +25,9 @@ const getCat = async (id) => {
 };
 
 const postCat = async (req) => {
+  // Remade body string because of multipart form
   req.body = JSON.parse(JSON.stringify(req.body));
+
   await body('name').isLength({min: 1}).run(req);
   await body('age').
       isNumeric().
@@ -37,7 +39,12 @@ const postCat = async (req) => {
       custom(v => v >= 0 && v < 25).
       withMessage('Give weight between 0 and 25').
       run(req);
-  await body('owner').isNumeric().custom( v => console.log(v))
+  await body('owner').isNumeric();
+
+  // Checks if there is user with given id
+  const owner = await getUser(req.body.owner);
+  if (owner['error'])
+    return owner;
 
   const errors = validationResult(req);
   if (!errors.isEmpty())
@@ -53,7 +60,7 @@ const postCat = async (req) => {
           req.body.owner,
           req.file.filename],
     );
-    const cat = await getCat(status['insertId'])
+    const cat = await getCat(status['insertId']);
     return cat;
   } catch (e) {
     return {error: e.message};
