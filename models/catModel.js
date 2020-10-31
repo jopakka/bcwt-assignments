@@ -37,7 +37,7 @@ const postCat = async (req) => {
       custom(v => v >= 0 && v < 25).
       withMessage('Give weight between 0 and 25').
       run(req);
-  await body('owner').isNumeric().custom( async (v) => console.log(v))
+  await body('owner').isNumeric().custom( v => console.log(v))
 
   const errors = validationResult(req);
   if (!errors.isEmpty())
