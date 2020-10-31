@@ -1,6 +1,7 @@
 'use strict';
 const pool = require('../database/db');
 const promisePool = pool.promise();
+const { validationResult } = require('express-validator')
 
 const getAllCats = async () => {
   try {
@@ -8,8 +9,7 @@ const getAllCats = async () => {
         'SELECT wop_cat.*, wop_user.name as owner_name FROM wop_cat LEFT JOIN wop_user ON wop_cat.owner = wop_user.user_id');
     return rows;
   } catch (e) {
-    console.error('catModel error:', e.message);
-    return [];
+    return { error: e.message };
   }
 };
 
@@ -20,21 +20,24 @@ const getCat = async (id) => {
         [id]);
     return oneCat.reduce(cat => cat);
   } catch (e) {
-    console.error('catModel error:', e.message);
-    return {error: `Error happen`};
+    return { error: e.message };
   }
 };
 
-const postCat = async (body, file) => {
+const postCat = async (req) => {
+  console.log('req', req.body)
+  const errors = validationResult(req);
+  if(!errors.isEmpty())
+    return { error: errors.array() };
+
   try {
     await promisePool.execute(
         'INSERT INTO wop_cat(name, age, weight, owner, filename) VALUES(?,?,?,?,?)',
-        [body.name, body.age, body.weight, body.owner, file.filename],
+        [req.body.name, req.body.age, req.body.weight, req.body.owner, req.file.filename],
     );
-    return {success: true};
+    return { success: true };
   } catch (e) {
-    console.error('catModel error:', e.message);
-    return {error: 'Error happen'};
+    return { error: e.message };
   }
 };
 
@@ -46,7 +49,6 @@ const updateCat = async (body) => {
     );
     return {success: true};
   } catch (e) {
-    console.error('catModel error', e.message);
     return {error: true};
   }
 };
@@ -59,7 +61,6 @@ const deleteCat = async (id) => {
     );
     return {success: true};
   } catch (e) {
-    console.error('catModel error', e.message);
     return {error: true};
   }
 };
