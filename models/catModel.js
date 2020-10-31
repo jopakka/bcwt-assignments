@@ -1,7 +1,7 @@
 'use strict';
 const pool = require('../database/db');
 const promisePool = pool.promise();
-const { validationResult } = require('express-validator')
+const {body, validationResult} = require('express-validator');
 
 const getAllCats = async () => {
   try {
@@ -9,7 +9,7 @@ const getAllCats = async () => {
         'SELECT wop_cat.*, wop_user.name as owner_name FROM wop_cat LEFT JOIN wop_user ON wop_cat.owner = wop_user.user_id');
     return rows;
   } catch (e) {
-    return { error: e.message };
+    return {error: e.message};
   }
 };
 
@@ -20,24 +20,33 @@ const getCat = async (id) => {
         [id]);
     return oneCat.reduce(cat => cat);
   } catch (e) {
-    return { error: e.message };
+    return {error: e.message};
   }
 };
 
 const postCat = async (req) => {
-  console.log('req', req.body)
+  req.body = JSON.parse(JSON.stringify(req.body));
+  await body('name').isLength({min: 1}).run(req);
+  await body('age').isNumeric().custom(v => v >= 0 && v <= 50).withMessage('Give age between 0 and 50').run(req);
+  await body('weight').isNumeric().custom(v => v >= 0 && v < 25).withMessage('Give weight between 0 and 25').run(req);
+
   const errors = validationResult(req);
-  if(!errors.isEmpty())
-    return { error: errors.array() };
+  if (!errors.isEmpty())
+    return {error: errors.array()};
 
   try {
     await promisePool.execute(
         'INSERT INTO wop_cat(name, age, weight, owner, filename) VALUES(?,?,?,?,?)',
-        [req.body.name, req.body.age, req.body.weight, req.body.owner, req.file.filename],
+        [
+          req.body.name,
+          req.body.age,
+          req.body.weight,
+          req.body.owner,
+          req.file.filename],
     );
-    return { success: true };
+    return {success: true};
   } catch (e) {
-    return { error: e.message };
+    return {error: e.message};
   }
 };
 

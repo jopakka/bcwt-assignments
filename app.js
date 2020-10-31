@@ -10,6 +10,8 @@ const port = 3000;
 app.use(cors());
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use('/', express.static('public_html'))
 app.use('/cat', catRoute);
 app.use('/user', userRoute);
 
