@@ -26,7 +26,6 @@ const getCat = async (id) => {
 
 const postCat = async (req) => {
   req.body = JSON.parse(JSON.stringify(req.body));
-  console.log('catModel', req.body, req.file);
   await body('name').isLength({min: 1}).run(req);
   await body('age').
       isNumeric().
@@ -38,6 +37,10 @@ const postCat = async (req) => {
       custom(v => v >= 0 && v < 25).
       withMessage('Give weight between 0 and 25').
       run(req);
+  await body('owner').isNumeric().custom(async v => {
+    const [user] = await getUser(v);
+    console.log('catmodel', user)
+  })
 
   const errors = validationResult(req);
   if (!errors.isEmpty())
