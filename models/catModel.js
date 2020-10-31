@@ -58,7 +58,7 @@ const postCat = async (req) => {
       file.mimetype !== 'image/jpeg' &&
       file.mimetype !== 'image/gif' &&
       file.mimetype !== 'image/png') {
-    console.log('catModel file', file.mimetype);
+    return {error: 'File must be JPG, JPEG, GIF or PNG'}
   }
 
   try {
