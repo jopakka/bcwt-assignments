@@ -1,7 +1,7 @@
 'use strict';
 const pool = require('../database/db');
 const promisePool = pool.promise();
-const userModel = require('./userModel')
+const userModel = require('./userModel');
 const {body, validationResult} = require('express-validator');
 
 const getAllCats = async () => {
@@ -44,6 +44,7 @@ const postCat = async (req) => {
 
   // Checks if there is user with given id
   const owner = await userModel.getUser(req.body.owner);
+  console.log('catModel owner', owner);
   if (owner['error'])
     return owner;
 
