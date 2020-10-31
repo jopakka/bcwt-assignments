@@ -55,7 +55,7 @@ const postCat = async (req) => {
   if(!file){
     return {error: 'File needed'}
   } else if(file) {
-    console.log('catModel file', file)
+    console.log('catModel file', file.mimeType)
   }
 
   try {
