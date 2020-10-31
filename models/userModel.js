@@ -17,7 +17,7 @@ const getUser = async (id) => {
   try {
     const [oneUser] = await promisePool.execute(
         'SELECT user_id, name, email FROM wop_user WHERE user_id = ?', [id]);
-    return oneUser[0] //|| {error: `No users with id: ${id}`};
+    return oneUser[0] || {error: `No users with id: ${id}`};
   } catch (e) {
     return {error: e.message};
   }
