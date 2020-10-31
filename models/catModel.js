@@ -44,13 +44,19 @@ const postCat = async (req) => {
 
   // Checks if there is user with given id
   const owner = await userModel.getUser(req.body.owner);
-  console.log('catModel owner', owner);
   if (owner['error'])
     return owner;
 
   const errors = validationResult(req);
   if (!errors.isEmpty())
     return {error: errors.array()};
+
+  const file = req.file
+  if(!file){
+    return {error: 'File needed'}
+  } else if(file) {
+    console.log('catModel file', file)
+  }
 
   try {
     const [status] = await promisePool.execute(
