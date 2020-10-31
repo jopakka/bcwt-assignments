@@ -29,7 +29,7 @@ const postCat = async (req) => {
   // Remade body string because of multipart form
   req.body = JSON.parse(JSON.stringify(req.body));
 
-  await body('name').isLength({min: 1}).run(req);
+  await body('name').notEmpty().trim().escape().run(req);
   await body('age').
       isNumeric().
       custom(v => v >= 0 && v <= 50).
@@ -58,7 +58,7 @@ const postCat = async (req) => {
       file.mimetype !== 'image/jpeg' &&
       file.mimetype !== 'image/gif' &&
       file.mimetype !== 'image/png') {
-    return {error: 'File must be JPG, JPEG, GIF or PNG'}
+    return {error: 'File must be JPG, JPEG, GIF or PNG'};
   }
 
   try {
@@ -78,27 +78,33 @@ const postCat = async (req) => {
   }
 };
 
-const updateCat = async (body) => {
+const updateCat = async (req) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty())
+    return {error: errors.array()};
+
   try {
-    await promisePool.execute(
+    const [result] = await promisePool.execute(
         'UPDATE wop_cat SET name = ?, age = ?, weight = ?, owner = ? WHERE cat_id = ?',
-        [body.name, body.age, body.weight, body.owner, body.id],
+        [req.body.name, req.body.age, req.body.weight, req.body.owner, req.body.id],
     );
+    console.log('catModel update', result);
     return {success: true};
   } catch (e) {
-    return {error: true};
+    return {error: e.message};
   }
 };
 
 const deleteCat = async (id) => {
   try {
-    await promisePool.execute(
+    const [result] = await promisePool.execute(
         'DELETE FROM wop_cat WHERE cat_id = ?',
         [id],
     );
+    console.log('catModel delete', result)
     return {success: true};
   } catch (e) {
-    return {error: true};
+    return {error: e.message};
   }
 };
 

@@ -21,7 +21,7 @@ const cat_post = async (req, res) => {
 };
 
 const cat_update_put = async (req, res) => {
-  const result = await catModel.updateCat(req.body);
+  const result = await catModel.updateCat(req);
   res.json(result);
 };
 

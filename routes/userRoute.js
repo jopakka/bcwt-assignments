@@ -9,8 +9,8 @@ router.get('/', userController.user_list_get);
 router.get('/:id', userController.user_get);
 
 router.post('/', [
-  body('name').isLength({min: 3}),
-  body('email').isEmail(),
+  body('name').trim().escape().isLength({min: 3}),
+  body('email').isEmail().normalizeEmail(),
   body('passwd').
       isLength({min: 8}).withMessage('Password must contain at least 8 characters').
       custom(v => v.toLowerCase() !== v).
