@@ -11,8 +11,9 @@ const upload = multer({
         file.mimetype !== 'image/jpeg' &&
         file.mimetype !== 'image/gif' &&
         file.mimetype !== 'image/png') {
-      cb('File must be JPG, JPEG, GIF or PNG', true);
+      return cb('File must be JPG, JPEG, GIF or PNG', false);
     }
+    cb(null, true);
   },
 });
 
