@@ -71,8 +71,7 @@ const postCat = async (req) => {
           req.body.owner,
           req.file.filename],
     );
-    const cat = await getCat(status['insertId']);
-    return cat;
+    return await getCat(status['insertId']);
   } catch (e) {
     return {error: e.message};
   }
@@ -89,7 +88,7 @@ const updateCat = async (req) => {
   }
 
   try {
-    const [result] = await promisePool.execute(
+    await promisePool.execute(
         'UPDATE wop_cat SET name = ?, age = ?, weight = ?, owner = ? WHERE cat_id = ?',
         [
           req.body.name,
@@ -98,7 +97,6 @@ const updateCat = async (req) => {
           req.body.owner,
           req.body.id],
     );
-    console.log('catModel update', result);
     return await getCat(req.body.id);
   } catch (e) {
     return {error: e.message};
@@ -112,7 +110,7 @@ const deleteCat = async (id) => {
         [id],
     );
     console.log('catModel delete', result);
-    return {success: true};
+    return result;
   } catch (e) {
     return {error: e.message};
   }
