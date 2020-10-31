@@ -17,7 +17,7 @@ const getUser = async (id) => {
   try {
     const [oneUser] = await promisePool.execute(
         'SELECT user_id, name, email FROM wop_user WHERE user_id = ?', [id]);
-    return oneUser.reduce(user => user, -Infinity);
+    return oneUser.reduce(user => user, {xD: 'ggez'});
   } catch (e) {
     return { error: e.message };
   }
