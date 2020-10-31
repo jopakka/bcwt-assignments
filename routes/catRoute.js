@@ -13,6 +13,7 @@ router.get('/:id', catController.cat_get);
 router.post('/', upload.single('cat'), catController.cat_post);
 
 router.put('/', [
+  body('id').notEmpty().trim().escape().isNumeric(),
   body('name').notEmpty().trim().escape(),
   body('age').
       isNumeric().

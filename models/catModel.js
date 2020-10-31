@@ -83,13 +83,23 @@ const updateCat = async (req) => {
   if (!errors.isEmpty())
     return {error: errors.array()};
 
+  const cat = await getCat(req.body.id);
+  if (cat['error']) {
+    return cat;
+  }
+
   try {
     const [result] = await promisePool.execute(
         'UPDATE wop_cat SET name = ?, age = ?, weight = ?, owner = ? WHERE cat_id = ?',
-        [req.body.name, req.body.age, req.body.weight, req.body.owner, req.body.id],
+        [
+          req.body.name,
+          req.body.age,
+          req.body.weight,
+          req.body.owner,
+          req.body.id],
     );
     console.log('catModel update', result);
-    return {success: true};
+    return await getCat(req.body.id);
   } catch (e) {
     return {error: e.message};
   }
@@ -101,7 +111,7 @@ const deleteCat = async (id) => {
         'DELETE FROM wop_cat WHERE cat_id = ?',
         [id],
     );
-    console.log('catModel delete', result)
+    console.log('catModel delete', result);
     return {success: true};
   } catch (e) {
     return {error: e.message};
