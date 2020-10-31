@@ -55,7 +55,7 @@ const createCatCards = (cats) => {
         const response = await fetch(url + '/cat/' + cat.cat_id, fetchOptions);
         const json = await response.json();
         console.log('delete response', json);
-        getCat();
+        await getCat();
       }
       catch (e) {
         console.log(e.message);
