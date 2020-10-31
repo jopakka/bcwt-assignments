@@ -40,6 +40,7 @@ const postCat = async (req) => {
   await body('owner').isNumeric().custom(async v => {
     const [user] = await getUser(v);
     console.log('catmodel', user)
+    return true;
   })
 
   const errors = validationResult(req);
@@ -47,7 +48,7 @@ const postCat = async (req) => {
     return {error: errors.array()};
 
   try {
-    await promisePool.execute(
+    const [status] = await promisePool.execute(
         'INSERT INTO wop_cat(name, age, weight, owner, filename) VALUES(?,?,?,?,?)',
         [
           req.body.name,
@@ -56,7 +57,8 @@ const postCat = async (req) => {
           req.body.owner,
           req.file.filename],
     );
-    return {success: true};
+    const cat = await getCat(status['insertId'])
+    return cat;
   } catch (e) {
     return {error: e.message};
   }
