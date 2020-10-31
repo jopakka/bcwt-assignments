@@ -54,9 +54,9 @@ const postCat = async (req) => {
   const file = req.file;
   if (!file) {
     return {error: 'File needed'};
-  } else if (file.mimetype !== 'image/jpg' ||
-      file.mimetype !== 'image/jpeg' ||
-      file.mimetype !== 'image/gif' ||
+  } else if (file.mimetype !== 'image/jpg' &&
+      file.mimetype !== 'image/jpeg' &&
+      file.mimetype !== 'image/gif' &&
       file.mimetype !== 'image/png') {
     console.log('catModel file', file.mimetype);
   }
