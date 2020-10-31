@@ -109,8 +109,7 @@ const deleteCat = async (id) => {
         'DELETE FROM wop_cat WHERE cat_id = ?',
         [id],
     );
-    console.log('catModel delete', result);
-    return result;
+    return result.affectedRows === 0 ? {error: 'No cat deleted'} : {message: `Cat with id ${id} deleted`};
   } catch (e) {
     return {error: e.message};
   }
