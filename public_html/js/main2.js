@@ -1,5 +1,5 @@
 'use strict';
-const url = 'http://10.114.32.77:3000'; // change url when uploading to server
+const url = 'http://10.114.32.77/app'; // change url when uploading to server
 
 // select existing html elements
 const addForm = document.querySelector('#addCatForm');
@@ -55,7 +55,7 @@ const createCatCards = (cats) => {
         const response = await fetch(url + '/cat/' + cat.cat_id, fetchOptions);
         const json = await response.json();
         console.log('delete response', json);
-        getCat();
+        await getCat();
       }
       catch (e) {
         console.log(e.message);

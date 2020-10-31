@@ -13,12 +13,15 @@ const cat_get = async (req, res) => {
 };
 
 const cat_post = async (req, res) => {
-  const result = await catModel.postCat(req.body, req.file);
-  res.json(result);
+  const result = await catModel.postCat(req);
+  if (result['error'])
+    res.status(400).json(result);
+  else
+    res.json(result);
 };
 
 const cat_update_put = async (req, res) => {
-  const result = await catModel.updateCat(req.body);
+  const result = await catModel.updateCat(req);
   res.json(result);
 };
 
