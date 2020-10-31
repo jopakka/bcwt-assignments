@@ -17,7 +17,6 @@ const createCatCards = (cats) => {
     img.src = url + '/' + cat.filename;
     img.alt = cat.name;
     img.classList.add('resp');
-    console.log('cat',cat)
 
     const figure = document.createElement('figure').appendChild(img);
 
