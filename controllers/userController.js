@@ -19,7 +19,6 @@ const user_get = async (req, res) => {
 };
 
 const user_create_post = async (req, res) => {
-  console.log('userController post', req.body)
   const errors = validationResult(req);
   if (!errors.isEmpty())
     return {error: errors.array()};
