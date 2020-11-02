@@ -19,7 +19,6 @@ router.get('/', catController.cat_list_get);
 router.get('/:id', catController.cat_get);
 
 router.post('/', upload.single('cat'), [
-  body('id').notEmpty().trim().escape().isNumeric(),
   body('name').notEmpty().trim().escape(),
   body('age', 'Give age between 0 and 50').
       isNumeric().
