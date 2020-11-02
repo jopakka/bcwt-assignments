@@ -1,6 +1,5 @@
 # Data validation
-[Week3 branch](https://github.com/jopakka/bcwt-assignments/tree/week3)
-
+[Week3 branch](https://github.com/jopakka/bcwt-assignments/tree/week3)\
 Works only on Metropolia network when server [10.114.32.77](http://10.114.32.77) is running
 
 # Routing and Middleware
