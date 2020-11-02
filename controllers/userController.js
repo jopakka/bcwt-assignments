@@ -8,10 +8,10 @@ const user_list_get = async (req, res) => {
   res.json(users);
 };
 
-const user_post = (req, res) => {
-  console.log('userController:', req.body);
-  res.json({ok: true});
-};
+// const user_post = (req, res) => {
+//   console.log('userController:', req.body);
+//   res.json({ok: true});
+// };
 
 const user_get = async (req, res) => {
   const oneUser = await userModel.getUser(req.params.id);
@@ -19,6 +19,7 @@ const user_get = async (req, res) => {
 };
 
 const user_create_post = async (req, res) => {
+  console.log('userController post', req.body)
   const errors = validationResult(req);
   if (!errors.isEmpty())
     return {error: errors.array()};
@@ -33,6 +34,6 @@ const user_create_post = async (req, res) => {
 module.exports = {
   user_list_get,
   user_get,
-  user_post,
+  // user_post,
   user_create_post,
 };
