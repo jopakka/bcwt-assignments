@@ -1,7 +1,6 @@
 'use strict';
 const pool = require('../database/db');
 const promisePool = pool.promise();
-const {validationResult} = require('express-validator');
 
 const getAllUsers = async () => {
   try {
@@ -24,16 +23,11 @@ const getUser = async (id) => {
 };
 
 const addUser = async (req) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty())
-    return {error: errors.array()};
-
   try {
     const [status] = await promisePool.execute(
         'INSERT INTO wop_user(name, email, password) VALUES(?, ?, ?)',
         [req.body.name, req.body.email, req.body.passwd]);
-    const user = await getUser(status['insertId']);
-    return user;
+    return await getUser(status['insertId']);
   } catch (e) {
     return {error: e.message};
   }
