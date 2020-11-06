@@ -5,7 +5,7 @@ const userRoute = require('./routes/userRoute');
 const authRoute = require('./routes/authRoute');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const passport = require('./utils/pass')
+const passport = require('./utils/pass');
 const app = express();
 const port = 3000;
 
@@ -15,6 +15,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(express.static('public_html'));
 app.use(express.static('uploads'));
+app.use('/auth', authRoute);
 app.use('/cat', passport.authenticate('jwt', {session: false}), catRoute);
 app.use('/user', passport.authenticate('jwt', {session: false}), userRoute);
 
