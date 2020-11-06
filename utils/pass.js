@@ -29,7 +29,10 @@ passport.use(new JWTStrategy({
 }, async (jwtPayload, done) => {
   try {
     console.log('util pass JWT', jwtPayload);
-    return done(null, false, {message: 'Some job to do here'})
+    if(jwtPayload === undefined){
+      return done(null, false, {message: 'Incorrect id.'})
+    }
+    return done(null, {...jwtPayload}, {message: 'Logged In Successfully'});
   } catch (e) {
     return done(e);
   }

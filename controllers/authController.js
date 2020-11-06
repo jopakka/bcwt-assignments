@@ -4,7 +4,7 @@ const passport = require('passport');
 
 const login = (req, res) => {
   // TODO: add passport authenticate
-  console.log('authContoller login', req.body);
+  console.log('authController login', req.body);
   passport.authenticate('local', {session: false}, (err, user, info) => {
     if (err || !user) {
       return res.status(400).json({
