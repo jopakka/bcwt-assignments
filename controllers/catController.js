@@ -1,6 +1,7 @@
 'use strict';
 // catController
 const catModel = require('../models/catModel');
+const resize = require('../utils/resize')
 
 const cat_list_get = async (req, res) => {
   const cats = await catModel.getAllCats();
@@ -13,6 +14,7 @@ const cat_get = async (req, res) => {
 };
 
 const cat_post = async (req, res) => {
+  await resize.makeThumbnail(req.file.path, req.file.filename)
   const result = await catModel.postCat(req);
   if (result['error'])
     res.status(400).json(result);
