@@ -23,6 +23,12 @@ const login = (req, res) => {
   })(req, res);
 };
 
+const logout = (req, res) => {
+  req.logout();
+  res.redirect('./public_html/index3.html');
+};
+
 module.exports = {
   login,
+  logout,
 };
