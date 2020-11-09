@@ -29,7 +29,7 @@ const make_thumbnail = async (req, res, next) => {
 };
 
 const cat_post = async (req, res, next) => {
-  const coords = await imageMeta.getCoordinates(req.file.path);
+  const coords = await imageMeta.getCoordinates(req.file.path).catch(e => console.error('cat_post', e.message));
   console.log('coords', coords);
   const result = await catModel.postCat(req, coords.toString());
   if (result['error'])
