@@ -14,28 +14,27 @@ const cat_get = async (req, res) => {
   res.json(oneCat);
 };
 
-const make_thumbnail = async (req, res, next) => {
+const make_thumbnail = async (req) => {
   try {
     const ready = await resize.makeThumbnail({width: 160, height: 160},
         req.file.path,
         `./thumbnails/${req.file.filename}`);
     if (ready) {
       console.log('make_thumbnail', 'ready');
-      next();
     }
   } catch (e) {
-    next();
+    console.error('make_thumbnail', e.message);
   }
 };
 
 const cat_post = async (req, res, next) => {
   const coords = await imageMeta.getCoordinates(req.file.path).catch(e => console.error('cat_post', e.message));
   console.log('coords', coords);
-  const result = await catModel.postCat(req, coords.toString());
+  const result = await catModel.postCat(req, coords);
   if (result['error'])
     res.status(400).json(result);
   else {
-    await make_thumbnail(req, res, next);
+    await make_thumbnail(req);
     res.json(result);
   }
 };
