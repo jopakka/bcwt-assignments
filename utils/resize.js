@@ -6,6 +6,7 @@ const makeThumbnail = async (file, thumbname) => {
   // TODO: use sharp to create a png thumbnail of 160x160px, use async await
   try {
     const image = await sharp(file).resize(160, 160).toBuffer();
+    console.log('resize', image)
   } catch (e) {
     console.error('resize', e.message);
   }
