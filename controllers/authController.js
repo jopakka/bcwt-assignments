@@ -23,6 +23,12 @@ const login = (req, res) => {
   })(req, res);
 };
 
+const logout = (req, res) => {
+  req.logout();
+  res.json({message: 'Logged out successfully'});
+};
+
 module.exports = {
   login,
+  logout,
 };
