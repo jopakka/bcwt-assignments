@@ -24,9 +24,8 @@ const login = (req, res) => {
 };
 
 const logout = (req, res) => {
-  console.log('logout')
   req.logout();
-  res.redirect('./public_html/index3.html');
+  res.json({message: 'Logged out successfully'});
 };
 
 module.exports = {
