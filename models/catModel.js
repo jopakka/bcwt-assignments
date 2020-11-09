@@ -25,7 +25,7 @@ const getCat = async (id) => {
   }
 };
 
-const postCat = async (req) => {
+const postCat = async (req, coords) => {
   // Remade body string because of multipart form
   req.body = JSON.parse(JSON.stringify(req.body));
 
@@ -63,13 +63,14 @@ const postCat = async (req) => {
 
   try {
     const [status] = await promisePool.execute(
-        'INSERT INTO wop_cat(name, age, weight, owner, filename) VALUES(?,?,?,?,?)',
+        'INSERT INTO wop_cat(name, age, weight, owner, filename, coords) VALUES(?,?,?,?,?,?)',
         [
           req.body.name,
           req.body.age,
           req.body.weight,
           req.body.owner,
-          req.file.filename],
+          req.file.filename,
+          coords],
     );
     return await getCat(status['insertId']);
   } catch (e) {
