@@ -5,7 +5,7 @@ const makeThumbnail = async (file, thumbname) => {
   // file = full path to image (req.file.path), thumbname = filename (req.file.filename)
   // TODO: use sharp to create a png thumbnail of 160x160px, use async await
   try {
-    const image = await sharp(file).resize(160, 160).toFile(thumbname, (err, info) => {
+    const image = await sharp(file).resize(160, 160).toFile(`./thumbnails/${thumbname}`, (err, info) => {
       console.log('resize info', info)
       console.error('resize err', err)
     });
