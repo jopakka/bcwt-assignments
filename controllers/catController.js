@@ -18,7 +18,7 @@ const cat_post = async (req, res) => {
   if (result['error'])
     res.status(400).json(result);
   else{
-    await resize.makeThumbnail(req.file.path, req.file.filename)
+    await resize.makeThumbnail({width: 160, height: 160}, req.file.path, `./thumbnails/${req.file.filename}`)
     res.json(result);
   }
 };
