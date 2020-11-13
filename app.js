@@ -8,8 +8,6 @@ const bodyParser = require('body-parser');
 const passport = require('./utils/pass');
 
 const app = express();
-const port = 3000;
-const httpsPort = 8000;
 
 app.enable('trust proxy');
 
@@ -23,9 +21,6 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   require('./localhost')(app, process.env.HTTPS_PORT, process.env.HTTP_PORT);
 }
-app.get('/', (req, res) => {
-  res.send('Hello Secure World!');
-});
 
 // Routes
 app.use(express.static('public_html'));
