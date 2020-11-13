@@ -119,3 +119,7 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+# https
+certrequest.csr
+ssl-cert.pem
+ssl-key.pem
