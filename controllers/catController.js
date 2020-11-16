@@ -30,8 +30,11 @@ const make_thumbnail = async (req) => {
 const cat_post = async (req, res) => {
   const coords = await imageMeta.getCoordinates(req.file.path).catch(e => console.error('cat_post', e.message));
   console.log('coords', coords);
+  if(coords === undefined) {
+    return res.status(400).json({error: 'Jpeg image with coordinate data needed'});
+  }
   const result = await catModel.postCat(req, coords);
-  if (result['error'] || coords === undefined)
+  if (result['error'])
     res.status(400).json(result);
   else {
     await make_thumbnail(req);
