@@ -5,6 +5,7 @@ const passportJWT = require('passport-jwt');
 const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 const userModel = require('../models/userModel');
+const bcrypt = require('bcryptjs');
 
 // local strategy for username password login
 passport.use(new Strategy(
@@ -17,7 +18,7 @@ passport.use(new Strategy(
           return done(null, false);
         }
         // TODO: use bcrypt to check of passwords don't match
-        if (password !== user.password) { // passwords dont match
+        if (!bcrypt.compareSync(password, user.password)) { // passwords dont match
           console.log('here');
           return done(null, false);
         }
@@ -35,8 +36,8 @@ passport.use(new JWTStrategy({
 }, async (jwtPayload, done) => {
   try {
     console.log('util pass JWT', jwtPayload);
-    if(jwtPayload === undefined){
-      return done(null, false, {message: 'Incorrect id.'})
+    if (jwtPayload === undefined) {
+      return done(null, false, {message: 'Incorrect id.'});
     }
     return done(null, {...jwtPayload}, {message: 'Logged In Successfully'});
   } catch (e) {
